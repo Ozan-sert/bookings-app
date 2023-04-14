@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/Ozan-sert/bookings-app/pkg/config"
-	"github.com/Ozan-sert/bookings-app/pkg/handlers"
-	"github.com/Ozan-sert/bookings-app/pkg/render"
+	"github.com/Ozan-sert/bookings-app/internal/config"
+	"github.com/Ozan-sert/bookings-app/internal/handlers"
+	"github.com/Ozan-sert/bookings-app/internal/render"
 	"log"
 	"net/http"
 	"time"
