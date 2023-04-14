@@ -1,6 +1,6 @@
 module github.com/Ozan-sert/bookings-app
 
-go 1.15
+go 1.19
 
 require (
 	github.com/alexedwards/scs/v2 v2.4.0
