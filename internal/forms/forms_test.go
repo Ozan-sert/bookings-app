@@ -42,7 +42,7 @@ func TestForm_Required(t *testing.T) {
 }
 
 func TestForm_Has(t *testing.T) {
-	postedData := url.Values{}
+	
 	form := New(url.Values{})
 
 	has := form.Has("whatever")
@@ -50,7 +50,7 @@ func TestForm_Has(t *testing.T) {
 		t.Error("form shows has field when it does not")
 	}
 
-	postedData = url.Values{}
+	postedData := url.Values{}
 	postedData.Add("a", "a")
 
 	form = New(postedData)
