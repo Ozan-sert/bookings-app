@@ -13,7 +13,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
+	"testing"
 	"time"
 )
 
@@ -22,14 +24,18 @@ var session *scs.SessionManager
 var pathToTemplates = "./../../templates"
 var functions = template.FuncMap{}
 
-func getRoutes() http.Handler {
-	// what am I going to put in the session
+func TestMain(m *testing.M) {
 	gob.Register(models.Reservation{})
 
 	// change this to true when in production
 	app.InProduction = false
 
-	// set up the session
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -46,11 +52,14 @@ func getRoutes() http.Handler {
 	app.TemplateCache = tc
 	app.UseCache = true
 
-	repo := NewRepo(&app)
+	repo := NewTestRepo(&app)
 	NewHandlers(repo)
+	render.NewRenderer(&app)
 
-	render.NewTemplates(&app)
+	os.Exit(m.Run())
+}
 
+func getRoutes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
@@ -78,7 +87,7 @@ func getRoutes() http.Handler {
 	return mux
 }
 
-// NoSurf is the csrf protection middleware
+// NoSurf adds CSRF protection to all POST requests
 func NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 
@@ -91,7 +100,7 @@ func NoSurf(next http.Handler) http.Handler {
 	return csrfHandler
 }
 
-// SessionLoad loads and saves session data for current request
+// SessionLoad loads and saves the session on every request
 func SessionLoad(next http.Handler) http.Handler {
 	return session.LoadAndSave(next)
 }
