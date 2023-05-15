@@ -1,6 +1,6 @@
 # Bookings and Reservations
 
-This project is a bookings and reservation system for a Bed & Breakfast. Visitors can search for accommodations by date and make an online reservation, while the site owner can manage reservations from a secure back end.
+This project is a bookings/reservation system for a Bed & Breakfast. Visitors can search for accommodations by date and make an online reservation, while the site owner can manage reservations from a secure back end.
 
 ## Technologies Used
 [![Version](https://img.shields.io/badge/goversion-1.16.x-blue.svg)](https://golang.org)
